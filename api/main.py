@@ -6,8 +6,18 @@ from urllib.parse import urlparse
 import requests
 import pandas as pd
 from ml_model import extract_features  # assumes it's importable
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+# ✅ CORS config
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # or restrict to specific origins like ["chrome-extension://<your-extension-id>"]
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Load trained model (we'll save it later from ml_model.py)
 model = joblib.load("malicious_url_model.pkl")
